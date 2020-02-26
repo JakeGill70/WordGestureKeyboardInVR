@@ -10,20 +10,26 @@ using namespace cv;
 class ColorTracker
 {
 public:
+	ColorTracker(cv::Scalar minHSV, cv::Scalar maxHSV);
+	
+	void update(cv::Mat image);
+	cv::Point getUpdate(cv::Mat image);
+	cv::Point getCurrentPosition();
+	cv::Point getAveragePosition();
+	void setMinHSV(cv::Scalar c);
+	void setMaxHSV(cv::Scalar c);
+	void setCurrentPositionColor(cv::Scalar c);
+	void setAveragePositionColor(cv::Scalar c);
+
+private:
 	cv::Scalar minHSV;
 	cv::Scalar maxHSV;
 	cv::Scalar currentPositionColor;
 	cv::Scalar averagePositionColor;
+	cv::Point currentPosition;
 	vector<cv::Point> centerHistory;
 	int centerHistorySize;
-	cv::Point currentPosition;
-	
-	void update(cv::Mat image);
-	cv::Point getUpdate(cv::Mat image);
-	cv::Point getCurrentPosition(cv::Mat image);
-	cv::Point getAveragePosition(cv::Mat image);
 
-private:
 	vector<vector<cv::Point>> findShapes(cv::Mat thresh);
 	vector<cv::Point> findBiggestShape(vector<vector<cv::Point>> contours);
 	cv::Point findCenterOfShape(vector<cv::Point> contour);

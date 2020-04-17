@@ -6,6 +6,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "VirtualKey.h"
+#include <cmath>
 
 using namespace std;
 using namespace cv;
@@ -20,7 +21,8 @@ int main()
 
     Mat frame = Mat::zeros(frameHeight,frameWidth, CV_8UC3); // Frame Buffer
     Mat frameBuffer = Mat::zeros(frameHeight, frameWidth, CV_8UC3); // Frame Buffer
-    Mat thresh = Mat::zeros(frameHeight, frameWidth, CV_8UC3); // Color threshold mask
+    Mat thresh = Mat::zeros(frameHeight, frameWidth, CV_8UC3); // Red color threshold mask
+    Mat threshB = Mat::zeros(frameHeight, frameWidth, CV_8UC3); // White color threshold mask
 
     const int centerHistorySize=3;
     vector<Point> centerHistory = vector<Point>(centerHistorySize);
@@ -41,6 +43,7 @@ int main()
 
         // Create a mask of where a range of colors appear (Shades of red in HSV color space)
         inRange(frameBuffer, Scalar(150, 125, 50), Scalar(190, 255, 255), thresh);
+        inRange(frameBuffer, Scalar(0, 0, 200), Scalar(25, 25, 255), threshB);
 
         // TODO: Figure out how this works and explain it
         vector<vector<Point>> contours;
@@ -48,7 +51,7 @@ int main()
 
         if (!contours.empty()) {
 
-            // Find the biggest shape (contour)
+            // Find the biggest shape (contour) of red
             int maxArea = 0;
             int bestContourIndex = 0;
             for (int i = 0; i < contours.size(); i++)
@@ -62,13 +65,33 @@ int main()
 
             // Find the center of the shape (contour)
             Moments M = cv::moments(contours[bestContourIndex]); // TODO: Figure out how this works and explain it
-            Point center(0, 0);
+            Point centerRed(0, 0);
             if (M.m00 != 0) { // Protect against divde by 0 errors
-                center = Point((int)(M.m10 / M.m00), (int)(M.m01 / M.m00));
+                centerRed = Point((int)(M.m10 / M.m00), (int)(M.m01 / M.m00));
             }
+
+            // Find the white spot closest to the center of the largest red area
+            // TODO: Figure out how this works and explain it
+            int bestDistance = 9999999;
+            Point centerWhite(0, 0);
+            Point centerMain(0, 0);
+            findContours(threshB, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
+            for (int i = 0; !contours.empty() && i < contours.size(); i++)
+            {
+                // Find the center of the shape (contour)
+                M = cv::moments(contours[i]); // TODO: Figure out how this works and explain it
+                if (M.m00 != 0) { // Protect against divde by 0 errors
+                    centerWhite = Point((int)(M.m10 / M.m00), (int)(M.m01 / M.m00));
+                }
+                int distance = sqrt(((centerWhite.x - centerRed.x)*(centerWhite.x - centerRed.x)) + ((centerWhite.y - centerRed.y)*(centerWhite.y - centerRed.y)));
+                if (distance < bestDistance) {
+                    centerMain = centerWhite;
+                }
+            }
+
             
             // Draw a circle highlighting the center
-            circle(frame, center, 5, Scalar(255, 255, 255), -1);
+            circle(frame, centerMain, 5, Scalar(255, 255, 255), -1);
 
             // Find the average center of the last 3 frames
             Point average(0, 0);
@@ -80,7 +103,7 @@ int main()
 
             // Shift values down for next iteration through the loop
             std::rotate(centerHistory.begin(), centerHistory.begin()+1, centerHistory.end());
-            centerHistory[0] = center;
+            centerHistory[0] = centerMain;
 
             // Draw a circle highlighting the average center
             circle(frame, average, 5, Scalar(0, 255, 255), 3);
@@ -90,6 +113,7 @@ int main()
         // Display
         cv::imshow("Video Camera (Mirrored)", frame);
         cv::imshow("Thresh Mask (Red Marker)", thresh);
+        cv::imshow("Thresh Mask (White)", threshB);
 
         // Exit if 'ESC' is pressed
         if (waitKey(33) == 27) {

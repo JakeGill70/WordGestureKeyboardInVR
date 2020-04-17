@@ -43,11 +43,11 @@ Point ColorTracker::getUpdate(cv::Mat image) {
 }
 
 Point ColorTracker::getCurrentPosition() {
-
+	return Point();
 }
 
 Point ColorTracker::getAveragePosition() {
-
+	return Point();
 }
 //public:
 //	ColorTracker(cv::Scalar minHSV, cv::Scalar maxHSV);

@@ -3,6 +3,8 @@
 #define COLOR_TRACKER_H
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include "ColorRange.h"
+
 
 using namespace std;
 using namespace cv;
@@ -10,31 +12,34 @@ using namespace cv;
 class ColorTracker
 {
 public:
-	ColorTracker(cv::Scalar minHSV, cv::Scalar maxHSV);
+	ColorTracker(ColorRange red, ColorRange white);
 	
 	void update(cv::Mat image);
-	cv::Point getUpdate(cv::Mat image);
 	cv::Point getCurrentPosition();
 	cv::Point getAveragePosition();
-	void setMinHSV(cv::Scalar c);
-	void setMaxHSV(cv::Scalar c);
-	void setCurrentPositionColor(cv::Scalar c);
-	void setAveragePositionColor(cv::Scalar c);
+	void setRedColorRange(ColorRange c);
+	void setWhiteColorRange(ColorRange c);
+	ColorRange getRedColorRange();
+	ColorRange getWhiteColorRange();
+	cv::Mat getRedMask();
+	cv::Mat getWhiteMask();
 
 private:
-	cv::Scalar minHSV;
-	cv::Scalar maxHSV;
+	ColorRange red;
+	ColorRange white;
 	cv::Scalar currentPositionColor;
 	cv::Scalar averagePositionColor;
 	cv::Point currentPosition;
 	vector<cv::Point> centerHistory;
 	int centerHistorySize;
+	cv::Mat redMask;
+	cv::Mat whiteMask;
 
-	vector<vector<cv::Point>> findShapes(cv::Mat thresh);
-	vector<cv::Point> findBiggestShape(vector<vector<cv::Point>> contours);
+	vector<vector<cv::Point>> findShapes(cv::Mat mask);
+	vector<cv::Point> findBiggestShape(cv::Mat mask);
 	cv::Point findCenterOfShape(vector<cv::Point> contour);
-	void drawCircle(cv::Mat image, cv::Point);
-	void shiftHistory();
+	int findDistanceBetweenTwoPoints(cv::Point a, cv::Point b);
+	void pushOntoPositionHistory(cv::Point p);
 };
 
 #endif

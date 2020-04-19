@@ -82,7 +82,14 @@ int ColorTracker::findDistanceBetweenTwoPoints(Point a, Point b) {
 
 vector<Point> ColorTracker::findBiggestShape(Mat mask) {
 	// Create a pointer to the biggest shape (contour) found so far
-	vector<Point>* biggestShape = NULL;
+	vector<Point>* biggestShape;
+
+	// Default to the biggest shape
+	// Create a new shape out of a single point
+	// Centered a screen coords (0,0)
+	vector<Point>* emptyShape = new vector<Point>();
+	(*emptyShape).push_back(Point(0, 0));
+	biggestShape = emptyShape;
 	
 	// Get a list of all outlines of each of the different shapes within the red mask
 	vector<vector<Point>> shapes = findShapes(mask);
@@ -100,14 +107,6 @@ vector<Point> ColorTracker::findBiggestShape(Mat mask) {
 				biggestShape = &shapes[i];
 			}
 		}
-	}
-	else {
-		// If the masks is blank
-		// Create a new shape out of a single point
-		// Centered a screen coords (0,0)
-		vector<Point>* emptyShape = new vector<Point>();
-		(*emptyShape).push_back(Point(0,0));
-		biggestShape = emptyShape;
 	}
 
 	// Return the biggest shape

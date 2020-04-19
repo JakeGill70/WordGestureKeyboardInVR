@@ -71,10 +71,10 @@ int main()
             }
 
             // Find the white spot closest to the center of the largest red area
-            // TODO: Figure out how this works and explain it
             int bestDistance = 9999999;
             Point centerWhite(0, 0);
             Point centerMain(0, 0);
+            // TODO: Figure out how this works and explain it
             findContours(threshB, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
             for (int i = 0; !contours.empty() && i < contours.size(); i++)
             {

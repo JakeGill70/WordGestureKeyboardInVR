@@ -153,6 +153,27 @@ Point ColorTracker::getAveragePosition() {
 	return average;
 }
 
+Point ColorTracker::getBiasedPosition() {
+	// Find the average center based on the history of current positions
+	// Where newer values have a heavier weight than older values
+	Point average(0, 0);
+	// Sum
+	double totalWeight = 0.0;
+	double currentWeight = 0.0;
+	for (int i = 0; i < centerHistory.size(); i++) {
+		currentWeight = 1.0 / pow(2.0, (double)i);
+		totalWeight += currentWeight;
+		average.x += (int)(centerHistory[i].x * currentWeight);
+		average.y += centerHistory[i].y * currentWeight;
+	}
+	// Divide by weight
+	average.x = (int)(average.x / totalWeight);
+	average.y = (int)(average.y / totalWeight);
+
+	// Return the average position
+	return average;
+}
+
 void ColorTracker::pushOntoPositionHistory(Point p) {
 	std::rotate(centerHistory.begin(), centerHistory.begin() + 1, centerHistory.end());
 	centerHistory[0] = p;

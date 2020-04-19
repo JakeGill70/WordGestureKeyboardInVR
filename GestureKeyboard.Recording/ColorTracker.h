@@ -17,6 +17,7 @@ public:
 	void update(cv::Mat image);
 	cv::Point getCurrentPosition();
 	cv::Point getAveragePosition();
+	cv::Point getBiasedPosition();
 	void setRedColorRange(ColorRange c);
 	void setWhiteColorRange(ColorRange c);
 	ColorRange getRedColorRange();

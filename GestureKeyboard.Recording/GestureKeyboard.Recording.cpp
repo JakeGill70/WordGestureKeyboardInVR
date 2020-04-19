@@ -43,10 +43,20 @@ int main()
         // Update the color tracker with the latest frame data
         colorTracker.update(frame);
 
-        // Draw a circle highlghting the current tip of the pen
+        // Mappings of circles:
+        // Yellow -> Average
+        // Green -> Biased
+        // Blue -> Current
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
         circle(frame, colorTracker.getAveragePosition(), 5, Scalar(0, 255, 255), 3);
+
+        // Draw a circle highlighting the average tip of the pen over the last 3 frames
+        // with a bias towards newer positions
+        circle(frame, colorTracker.getBiasedPosition(), 5, Scalar(50, 255, 50), 3);
+
+        // Draw a circle highlghting the current tip of the pen
+        circle(frame, colorTracker.getCurrentPosition(), 5, Scalar(255, 50, 50), 3);
 
         // Display
         cv::imshow("Video Camera (Mirrored)", frame);

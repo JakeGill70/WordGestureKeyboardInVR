@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIGHT_PEN_TRACKER_H
-#define LIGHT_PEN_TRACKER_H
+#ifndef FRAME_CONTROLLER_H
+#define FRAME_CONTROLLER_H
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>

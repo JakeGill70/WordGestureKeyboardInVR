@@ -24,12 +24,24 @@
     <ClCompile Include="VirtualKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ColorTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorRange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VideoCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VirtualKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorTracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorRange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

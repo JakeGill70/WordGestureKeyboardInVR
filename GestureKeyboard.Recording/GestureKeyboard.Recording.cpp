@@ -32,27 +32,26 @@ int main()
     // Object used for tracking the tip of a red light pen
     ColorTracker colorTracker(redColorRange, whiteColorRange);
 
+    const Scalar YELLOW(0, 255, 255);
+    const Scalar GREEN(50, 255, 50);
+    const Scalar BLUE(255, 50, 50);
+
     while (1) {
         // Capture the frame data
         frameBuffer = frameController.getFrameFromCamera();
 
         // Update the color tracker with the latest frame data
-        colorTracker.update(frame);
-
-        // Mappings of circles:
-        // Yellow -> Average
-        // Green -> Biased
-        // Blue -> Current
+        colorTracker.update(frameBuffer);
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
-        FrameController::addCircleToFrame(frameBuffer, colorTracker.getAveragePosition(), Scalar(0, 255, 255));
+        FrameController::addCircleToFrame(frameBuffer, colorTracker.getAveragePosition(), YELLOW);
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
         // with a bias towards newer positions
-        FrameController::addCircleToFrame(frameBuffer, colorTracker.getBiasedPosition(), Scalar(50, 255, 50));
+        FrameController::addCircleToFrame(frameBuffer, colorTracker.getBiasedPosition(), GREEN);
 
         // Draw a circle highlghting the current tip of the pen
-        FrameController::addCircleToFrame(frameBuffer, colorTracker.getCurrentPosition(), Scalar(255, 50, 50));
+        FrameController::addCircleToFrame(frameBuffer, colorTracker.getCurrentPosition(), BLUE);
 
         // Display
         cv::imshow("Video Camera (Mirrored)", frameBuffer);

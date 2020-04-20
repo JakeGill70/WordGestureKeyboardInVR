@@ -155,13 +155,17 @@
   <ItemGroup>
     <ClCompile Include="ColorRange.cpp" />
     <ClCompile Include="ColorTracker.cpp" />
+    <ClCompile Include="FrameController.cpp" />
     <ClCompile Include="GestureKeyboard.Recording.cpp" />
+    <ClCompile Include="LightPenTracker.cpp" />
     <ClCompile Include="VideoCapture.cpp" />
     <ClCompile Include="VirtualKey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorRange.h" />
     <ClInclude Include="ColorTracker.h" />
+    <ClInclude Include="FrameController.h" />
+    <ClInclude Include="LightPenTracker.h" />
     <ClInclude Include="VideoCapture.h" />
     <ClInclude Include="VirtualKey.h" />
   </ItemGroup>

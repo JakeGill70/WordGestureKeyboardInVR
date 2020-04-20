@@ -9,6 +9,7 @@
 #include <cmath>
 #include "ColorRange.h"
 #include "ColorTracker.h"
+#include "FrameController.h"
 
 using namespace std;
 using namespace cv;
@@ -18,12 +19,10 @@ int main()
     std::cout << "AR keyboard\n Created by: Jake Gillenwater\n";
 
     // Accessor to Video Camera
-    VideoCapture cap = VideoCapture(0); 
-    int frameHeight = cap.get(CAP_PROP_FRAME_HEIGHT);
-    int frameWidth = cap.get(CAP_PROP_FRAME_WIDTH);
+    FrameController frameController;
 
-    // Image retrieved from the video gamera
-    Mat frame = Mat::zeros(frameHeight,frameWidth, CV_8UC3);
+    // Image buffer for manipulating the frame data
+    Mat frameBuffer;
 
     // Red color range comes from trial and error
     ColorRange redColorRange(Scalar(150,125,50), Scalar(190,255,255));
@@ -35,10 +34,7 @@ int main()
 
     while (1) {
         // Capture the frame data
-        cap.read(frame); 
-
-        // Mirror the image so feels more intuitive to use
-        flip(frame, frame, 1); 
+        frameBuffer = frameController.getFrameFromCamera();
 
         // Update the color tracker with the latest frame data
         colorTracker.update(frame);
@@ -49,37 +45,29 @@ int main()
         // Blue -> Current
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
-        circle(frame, colorTracker.getAveragePosition(), 5, Scalar(0, 255, 255), 3);
+        FrameController::addCircleToFrame(frameBuffer, colorTracker.getAveragePosition(), Scalar(0, 255, 255));
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
         // with a bias towards newer positions
-        circle(frame, colorTracker.getBiasedPosition(), 5, Scalar(50, 255, 50), 3);
+        FrameController::addCircleToFrame(frameBuffer, colorTracker.getBiasedPosition(), Scalar(50, 255, 50));
 
         // Draw a circle highlghting the current tip of the pen
-        circle(frame, colorTracker.getCurrentPosition(), 5, Scalar(255, 50, 50), 3);
+        FrameController::addCircleToFrame(frameBuffer, colorTracker.getCurrentPosition(), Scalar(255, 50, 50));
 
         // Display
-        cv::imshow("Video Camera (Mirrored)", frame);
+        cv::imshow("Video Camera (Mirrored)", frameBuffer);
+        FrameController::displayFrame(frameBuffer, "Video Camera (Mirrored)");
 
         // These two are exclusively for debugging purposes
-        cv::imshow("Thresh Mask (Red)", colorTracker.getRedMask());
-        cv::imshow("Thresh Mask (White)", colorTracker.getWhiteMask());
+        FrameController::displayFrame(colorTracker.getRedMask(), "Thresh Mask (Red)");
+        FrameController::displayFrame(colorTracker.getWhiteMask(), "Thresh Mask (White)");
 
         // Exit if 'ESC' is pressed
+        int keyPressed = waitKey(33);
+
         if (waitKey(33) == 27) {
             break;
         }
     }
     return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

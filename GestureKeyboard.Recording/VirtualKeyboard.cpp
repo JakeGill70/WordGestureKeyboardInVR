@@ -1,14 +1,51 @@
 #include "VirtualKeyboard.h"
-#include <opencv2\core\types.hpp>
+#include <opencv2/core/types.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 
 using namespace cv;
 using namespace std;
 
-VirtualKeyboard::VirtualKeyboard(Point startPosition, Point keySize, char letters[], int rowOffsets[]) {
+VirtualKeyboard::VirtualKeyboard(Point startPosition, Point keySize, int numberOfLetters, char letters[], int rowOffsets[]) {
+	
+	// Determines how much each new row of keys should be offset to the right
+	int rowOffsetIndex = 0;
 
-	// This function creates the keys
-	this->initKeys(startPosition, keySize);
+	// Determine the amount of spacing between each key
+	int keyKerning = 3;
+
+	// Determine the size of the argument array.
+	//	This will tell us the maximum number of keys to create.
+	//	Note: this number will be reduced in the for loop below
+	//	whenever a row delimiter is found within the string.
+	this->numberOfKeys = numberOfLetters;
+
+	// Allocate memory for all these new virtual keys
+	this->keys[numberOfLetters] = {};
+
+	// Use a rect to set the position and size of each newly created key
+	Rect keyTransform(startPosition.x, startPosition.y, keySize.x, keySize.y);
+
+	int keyIndex = 0;
+
+	// Foreach letter in letters, create a virtual key for it
+	for (int i = 0; i < numberOfLetters; i++)
+	{
+		if (letters[i] == '|') {
+			rowOffsetIndex++;
+			keyTransform.x = startPosition.x;
+			keyTransform.x += rowOffsets[rowOffsetIndex];
+			keyTransform.y += keySize.y + keyKerning;
+			this->numberOfKeys--;
+		}
+		else {
+			this->keys[keyIndex] = VirtualKey(letters[i], keyTransform);
+			keyIndex++;
+			keyTransform.x += keySize.x + keyKerning;
+		}
+	}
 }
 
 void VirtualKeyboard::drawKeyboard(Mat inputOutputArray)
@@ -66,42 +103,6 @@ VirtualKey VirtualKeyboard::getKey(char letter)
 	{
 		if (this->keys[i].letter == letter) {
 			return this->keys[i];
-		}
-	}
-}
-
-void VirtualKeyboard::initKeys(Point startPosition, Point keySize) {
-	// TODO: Make this more extendable by allowing multiple keyboard layouts
-	char letters[] = "qwertyuiop|asdfghjkl|zxcvbnm";
-	int rowOffsets[] = { 0, 20, 40 };
-	int rowOffsetIndex = 0;
-	int keyKerning = 3;
-
-	// Determine the size of the argument array.
-	//	This will tell us the maximum number of keys to create.
-	//	Note: this number will be reduced in the for loop below
-	//	whenever a row delimiter is found within the string.
-	this->numberOfKeys = sizeof(letters) / sizeof(char);
-
-	// Allocate memory for all these new virtual keys
-	this->keys[this->numberOfKeys];
-
-	// Use a rect to set the position and size of each newly created key
-	Rect keyTransform(startPosition.x, startPosition.y, keySize.x, keySize.y);
-
-	// Foreach letter in letters, create a virtual key for it
-	for (int i = 0; i < this->numberOfKeys; i++)
-	{
-		if (letters[i] == '|') {
-			rowOffsetIndex++;
-			keyTransform.x = startPosition.x;
-			keyTransform.x += rowOffsets[rowOffsetIndex];
-			keyTransform.y += keySize.y + keyKerning;
-			this->numberOfKeys--;
-		}
-		else {
-			this->keys[i] = VirtualKey(letters[i], keyTransform);
-			keyTransform.x += keyKerning;
 		}
 	}
 }

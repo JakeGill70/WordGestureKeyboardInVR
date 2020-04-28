@@ -11,7 +11,7 @@ using namespace cv;
 class VirtualKeyboard
 {
 public:
-	VirtualKeyboard(Point startPosition, Point keySize, char letters[], int rowOffsets[]);
+	VirtualKeyboard(Point startPosition, Point keySize, int numberOfLetters, char letters[], int rowOffsets[]);
 
 	void drawKeyboard(cv::Mat inputOutputArray);
 	void setKeyColor(cv::Scalar c);

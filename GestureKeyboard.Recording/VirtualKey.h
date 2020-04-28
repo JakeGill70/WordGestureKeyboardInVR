@@ -15,6 +15,7 @@ public:
 	Point size;
 	Scalar fontColor;
 	Scalar buttonColor;
+	VirtualKey();
 	VirtualKey(string letter, Rect position);
 	void drawKey(Mat inputOutputArray);
 	void drawButton(Mat inputOutputArray);

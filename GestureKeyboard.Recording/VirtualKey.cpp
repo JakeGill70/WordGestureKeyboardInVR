@@ -1,4 +1,3 @@
-#pragma once
 #include "VirtualKey.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc.hpp>
@@ -7,6 +6,14 @@
 
 using namespace std;
 using namespace cv;
+
+VirtualKey::VirtualKey() {
+	this->letter = "?";
+	this->position = Rect();
+	this->fontColor = fontColor;
+	this->buttonColor = Scalar(220, 220, 220);
+	this->fontColor = Scalar(0);
+}
 
 VirtualKey::VirtualKey(string letter, Rect position) {
 	this->letter = letter;

@@ -9,6 +9,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <cmath>
+#include "VirtualKeyboard.h"
 
 
 using namespace std;
@@ -33,12 +34,21 @@ void LightPenTracker::run() {
     const Scalar GREEN(50, 255, 50);
     const Scalar BLUE(255, 50, 50);
 
+    char letters[] = "qwertyuiop|asdfghjkl|zxcvbnm";
+    int numberOfLetters = sizeof(letters) - 1; // Must subtract 1 because ""-notation of char arrays automatically adds a null character
+    int rowOffsets[3] = { 0, 20, 40 };
+    Point startPosition(30, 140);
+    Point keySize(55, 65);
+    VirtualKeyboard virtualKeyboard(startPosition, keySize, numberOfLetters, letters, rowOffsets);
+
     while (1) {
         // Capture the frame data
         frameBuffer = frameController.getFrameFromCamera();
 
         // Update the color tracker with the latest frame data
         colorTracker.update(frameBuffer);
+
+        virtualKeyboard.drawKeyboard(&frameBuffer);
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
         FrameController::addCircleToFrame(frameBuffer, colorTracker.getAveragePosition(), YELLOW);
@@ -54,8 +64,8 @@ void LightPenTracker::run() {
         FrameController::displayFrame(frameBuffer, "Video Camera (Mirrored)");
 
         // These two are exclusively for debugging purposes
-        FrameController::displayFrame(colorTracker.getRedMask(), "Thresh Mask (Red)");
-        FrameController::displayFrame(colorTracker.getWhiteMask(), "Thresh Mask (White)");
+        // FrameController::displayFrame(colorTracker.getRedMask(), "Thresh Mask (Red)");
+        // FrameController::displayFrame(colorTracker.getWhiteMask(), "Thresh Mask (White)");
 
         // Exit if 'ESC' is pressed
         int keyPressed = waitKey(33);

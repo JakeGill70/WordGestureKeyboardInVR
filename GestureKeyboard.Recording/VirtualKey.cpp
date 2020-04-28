@@ -9,7 +9,7 @@ using namespace cv;
 
 VirtualKey::VirtualKey() {
 	this->letter = "?";
-	this->position = Rect();
+	this->transform = Rect();
 	this->fontColor = fontColor;
 	this->buttonColor = Scalar(220, 220, 220);
 	this->fontColor = Scalar(0);
@@ -17,7 +17,7 @@ VirtualKey::VirtualKey() {
 
 VirtualKey::VirtualKey(string letter, Rect position) {
 	this->letter = letter;
-	this->position = position;
+	this->transform = position;
 	this->fontColor = fontColor;
 	this->buttonColor = Scalar(220, 220, 220);
 	this->fontColor = Scalar(0);
@@ -47,7 +47,7 @@ void VirtualKey::drawKey(Mat inputOutputArray) {
 
 void VirtualKey::drawButton(Mat inputOutputArray) {
 	// Define Button
-	Rect rect(this->position.x, this->position.y, this->position.width, this->position.height);
+	Rect rect(this->transform.x, this->transform.y, this->transform.width, this->transform.height);
 	Scalar buttonColor = this->buttonColor;
 	
 	// Draw button
@@ -57,7 +57,7 @@ void VirtualKey::drawButton(Mat inputOutputArray) {
 void VirtualKey::drawLetter(Mat inputOutputArray) {
 	// Define Letter
 	string textToDisplay = this->letter;
-	Point keyCorner = Point(this->position.x, this->position.y);
+	Point keyCorner = Point(this->transform.x, this->transform.y);
 	int fontStyle = cv::FONT_HERSHEY_SIMPLEX;
 	int fontScaling = 1;
 	Scalar fontColor = this->fontColor;

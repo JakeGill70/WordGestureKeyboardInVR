@@ -11,8 +11,7 @@ class VirtualKey
 {
 public:
 	string letter;
-	Rect position;
-	Point size;
+	Rect transform;
 	Scalar fontColor;
 	Scalar buttonColor;
 	VirtualKey();

@@ -24,9 +24,13 @@ void ColorTracker::setWhiteColorRange(ColorRange c) {
 }
 
 void ColorTracker::update(cv::Mat image) {
+	// Store local copies of the image size
+	int rows = image.rows;
+	int cols = image.cols;
+
 	// Create an image buffer to manipulate
 	// without affecting the parameter image
-	Mat imageBuffer = Mat::zeros(image.rows, image.cols, CV_8UC3);
+	Mat imageBuffer = Mat::zeros(rows, cols, CV_8UC3);
 
 	// Copy the content of the image into the image buffer.
 	// Smooth the image while maintaining sharp edges,
@@ -38,8 +42,8 @@ void ColorTracker::update(cv::Mat image) {
 	cvtColor(imageBuffer, imageBuffer, COLOR_BGR2HSV);
 
 	// Create masks for the different color ranges
-	redMask = Mat::zeros(image.rows, image.cols, CV_8UC3);
-	whiteMask = Mat::zeros(image.rows, image.cols, CV_8UC3);
+	redMask = Mat::zeros(rows, cols, CV_8UC3);
+	whiteMask = Mat::zeros(rows, cols, CV_8UC3);
 
 	// Create a mask of where a range of colors appear (Shades of red in HSV color space)
 	inRange(imageBuffer, red.getMin(), red.getMax(), redMask);

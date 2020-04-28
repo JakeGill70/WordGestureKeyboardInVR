@@ -144,14 +144,20 @@ Point ColorTracker::getCurrentPosition() {
 Point ColorTracker::getAveragePosition() {
 	// Find the average center based on the history of current positions
 	Point average(0, 0);
+	int nonZeroPoints = 0;
 	// Sum
 	for (int i = 0; i < centerHistory.size(); i++) {
-		average.x += centerHistory[i].x;
-		average.y += centerHistory[i].y;
+		if (centerHistory[i].x != 0 && centerHistory[i].y != 0) {
+			average.x += centerHistory[i].x;
+			average.y += centerHistory[i].y;
+			nonZeroPoints++;
+		}
 	}
 	// Divide by size
-	average.x = average.x / centerHistory.size();
-	average.y = average.y / centerHistory.size();
+	if (nonZeroPoints > 0) {
+		average.x = average.x / nonZeroPoints;
+		average.y = average.y / nonZeroPoints;
+	}
 	
 	// Return the average position
 	return average;
@@ -165,10 +171,12 @@ Point ColorTracker::getBiasedPosition() {
 	double totalWeight = 0.0;
 	double currentWeight = 0.0;
 	for (int i = 0; i < centerHistory.size(); i++) {
-		currentWeight = 1.0 / pow(2.0, (double)i);
-		totalWeight += currentWeight;
-		average.x += (int)(centerHistory[i].x * currentWeight);
-		average.y += centerHistory[i].y * currentWeight;
+		if (centerHistory[i].x != 0 && centerHistory[i].y != 0) {
+			currentWeight = 1.0 / pow(2.0, (double)i);
+			totalWeight += currentWeight;
+			average.x += (int)(centerHistory[i].x * currentWeight);
+			average.y += centerHistory[i].y * currentWeight;
+		}
 	}
 	// Divide by weight
 	average.x = (int)(average.x / totalWeight);

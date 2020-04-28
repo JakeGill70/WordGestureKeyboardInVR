@@ -160,6 +160,7 @@
     <ClCompile Include="LightPenTracker.cpp" />
     <ClCompile Include="VideoCapture.cpp" />
     <ClCompile Include="VirtualKey.cpp" />
+    <ClCompile Include="VirtualKeyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorRange.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="LightPenTracker.h" />
     <ClInclude Include="VideoCapture.h" />
     <ClInclude Include="VirtualKey.h" />
+    <ClInclude Include="VirtualKeyboard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

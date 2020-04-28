@@ -48,13 +48,56 @@ VirtualKeyboard::VirtualKeyboard(Point startPosition, Point keySize, int numberO
 	}
 }
 
-void VirtualKeyboard::drawKeyboard(Mat inputOutputArray)
+void VirtualKeyboard::drawKeyboard(Mat* inputOutputArray)
 {
+	/*
+
+	Niave drawing - will need to batch draw calls to make this work
+	
 	// Draw each key
 	for (int i = 0; i < this->numberOfKeys; i++)
 	{
-		this->keys->drawKey(inputOutputArray);
+		this->keys->drawKey(*inputOutputArray);
 	}
+
+	*/
+
+	Mat overlay;
+	inputOutputArray->copyTo(overlay);
+
+	Scalar buttonColor = this->keys[0].buttonColor;
+
+	VirtualKey* key;
+
+	// Draw each key
+	for (int i = 0; i < this->numberOfKeys; i++)
+	{
+		key = &(this->keys[i]);
+
+		// Draw button
+		rectangle(overlay, key->transform, buttonColor, -1);
+		
+		// Define Letter
+		string textToDisplay;
+		textToDisplay += key->letter;
+		Point keyCorner = Point(key->transform.x, key->transform.y);
+		int fontStyle = cv::FONT_HERSHEY_SIMPLEX;
+		int fontScaling = 1;
+		Scalar fontColor = key->fontColor;
+		int lineThickness = 3;
+		int lineType = cv::LINE_4;
+
+		// Translate the position of the letter such that it is in the center of a button
+		keyCorner.y += fontScaling * 20 + 5;
+		keyCorner.x += 5;
+
+		// Draw Letter
+		cv::putText(overlay, textToDisplay, keyCorner, fontStyle, fontScaling, fontColor, lineThickness, lineType);
+	}
+
+	// Draw keyboard overlay
+	double alpha = 0.33;
+	addWeighted(overlay, alpha, *inputOutputArray, 1 - alpha, 0, *inputOutputArray);
 }
 
 void VirtualKeyboard::setKeyColor(Scalar c)

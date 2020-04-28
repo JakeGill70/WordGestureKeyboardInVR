@@ -13,7 +13,7 @@ class VirtualKeyboard
 public:
 	VirtualKeyboard(Point startPosition, Point keySize, int numberOfLetters, char letters[], int rowOffsets[]);
 
-	void drawKeyboard(cv::Mat inputOutputArray);
+	void drawKeyboard(cv::Mat* inputOutputArray);
 	void setKeyColor(cv::Scalar c);
 	void setFontColor(cv::Scalar c);
 	void setKeySize(cv::Point size);

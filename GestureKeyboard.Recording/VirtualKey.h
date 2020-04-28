@@ -10,12 +10,12 @@ using namespace cv;
 class VirtualKey
 {
 public:
-	string letter;
+	char letter;
 	Rect transform;
 	Scalar fontColor;
 	Scalar buttonColor;
 	VirtualKey();
-	VirtualKey(string letter, Rect position);
+	VirtualKey(char letter, Rect position);
 	void drawKey(Mat inputOutputArray);
 	void drawButton(Mat inputOutputArray);
 	void drawLetter(Mat inputOutputArray);

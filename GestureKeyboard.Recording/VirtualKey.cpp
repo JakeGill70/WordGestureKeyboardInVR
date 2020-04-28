@@ -8,14 +8,14 @@ using namespace std;
 using namespace cv;
 
 VirtualKey::VirtualKey() {
-	this->letter = "?";
+	this->letter = '?';
 	this->transform = Rect();
 	this->fontColor = fontColor;
 	this->buttonColor = Scalar(220, 220, 220);
 	this->fontColor = Scalar(0);
 }
 
-VirtualKey::VirtualKey(string letter, Rect position) {
+VirtualKey::VirtualKey(char letter, Rect position) {
 	this->letter = letter;
 	this->transform = position;
 	this->fontColor = fontColor;
@@ -56,7 +56,8 @@ void VirtualKey::drawButton(Mat inputOutputArray) {
 
 void VirtualKey::drawLetter(Mat inputOutputArray) {
 	// Define Letter
-	string textToDisplay = this->letter;
+	string textToDisplay;
+	textToDisplay += this->letter;
 	Point keyCorner = Point(this->transform.x, this->transform.y);
 	int fontStyle = cv::FONT_HERSHEY_SIMPLEX;
 	int fontScaling = 1;

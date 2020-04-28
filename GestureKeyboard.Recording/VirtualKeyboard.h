@@ -11,17 +11,18 @@ using namespace cv;
 class VirtualKeyboard
 {
 public:
-	VirtualKeyboard(cv::Point position, cv::Point size, int rowOffsets[]);
+	VirtualKeyboard(Point startPosition, Point keySize, char letters[], int rowOffsets[]);
 
 	void drawKeyboard(cv::Mat inputOutputArray);
-	void setKeyColor(Scalar c);
-	void setFontColor(Scalar c);
-	void setRowOffsets(int rowOffsets[]);
+	void setKeyColor(cv::Scalar c);
+	void setFontColor(cv::Scalar c);
+	void setKeySize(cv::Point size);
 	VirtualKey getKey(int i);
-	VirtualKey getKey(string letter);
+	VirtualKey getKey(char letter);
 private:
+	int numberOfKeys;
 	VirtualKey keys[];
-	void initKeys();
+	void initKeys(Point startPosition, Point keySize);
 };
 
 #endif

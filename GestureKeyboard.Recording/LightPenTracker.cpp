@@ -51,7 +51,6 @@ void LightPenTracker::run() {
         FrameController::addCircleToFrame(frameBuffer, colorTracker.getCurrentPosition(), BLUE);
 
         // Display
-        cv::imshow("Video Camera (Mirrored)", frameBuffer);
         FrameController::displayFrame(frameBuffer, "Video Camera (Mirrored)");
 
         // These two are exclusively for debugging purposes

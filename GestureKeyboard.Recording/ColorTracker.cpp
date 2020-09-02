@@ -36,6 +36,7 @@ void ColorTracker::update(cv::Mat image) {
 	// Smooth the image while maintaining sharp edges,
 	//	so that simple shapes appear more "blob-ish"
 	// Other parameters are from trial and error
+	// See More: https://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html?highlight=bilateralfilter
 	bilateralFilter(image, imageBuffer, 5, 50, 25);
 
 	// Convert to HSV color space for better color referencing

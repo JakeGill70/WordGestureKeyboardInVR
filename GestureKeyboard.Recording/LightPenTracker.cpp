@@ -68,9 +68,9 @@ void LightPenTracker::run() {
         // FrameController::displayFrame(colorTracker.getWhiteMask(), "Thresh Mask (White)");
 
         // Exit if 'ESC' is pressed
-        int keyPressed = waitKey(33);
+        int keyPressed = waitKey(1);
 
-        if (waitKey(33) == 27) {
+        if (keyPressed == 27) {
             break;
         }
     }

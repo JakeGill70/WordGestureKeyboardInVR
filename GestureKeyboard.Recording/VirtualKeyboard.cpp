@@ -3,6 +3,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <stdexcept>
 
 
 using namespace cv;
@@ -148,4 +149,9 @@ VirtualKey VirtualKeyboard::getKey(char letter)
 			return this->keys[i];
 		}
 	}
+	std::string errMsg = "Cannot map the letter ";
+	errMsg += letter;
+	errMsg += " to an index in keys[].";
+	throw std::runtime_error(errMsg);
+
 }

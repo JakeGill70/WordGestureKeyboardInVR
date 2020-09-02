@@ -21,8 +21,8 @@ public:
 	VirtualKey getKey(char letter);
 private:
 	int numberOfKeys;
-	VirtualKey keys[];
-	void initKeys(Point startPosition, Point keySize);
+	VirtualKey keys[50];
+	//void initKeys(Point startPosition, Point keySize);
 };
 
 #endif

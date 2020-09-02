@@ -105,7 +105,7 @@ vector<Point> ColorTracker::findBiggestShape(Mat mask) {
 		int maxArea = 0;
 		for (int i = 0; i < shapes.size(); i++)
 		{
-			int currentArea = contourArea(shapes[i]);
+			int currentArea = (int) contourArea(shapes[i]);
 			if (currentArea > maxArea) {
 				maxArea = currentArea;
 				biggestShape = &shapes[i];
@@ -175,7 +175,7 @@ Point ColorTracker::getBiasedPosition() {
 			currentWeight = 1.0 / pow(2.0, (double)i);
 			totalWeight += currentWeight;
 			average.x += (int)(centerHistory[i].x * currentWeight);
-			average.y += centerHistory[i].y * currentWeight;
+			average.y += (int)(centerHistory[i].y * currentWeight);
 		}
 	}
 	// Divide by weight

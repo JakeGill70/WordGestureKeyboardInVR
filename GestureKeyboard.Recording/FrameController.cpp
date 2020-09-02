@@ -11,8 +11,8 @@ FrameController::FrameController() {
 	// Accessor to the video camera
 	this->cap = VideoCapture(0);
 	// Get properties about the video stream
-	this->frameHeight = cap.get(CAP_PROP_FRAME_HEIGHT);
-	this->frameWidth = cap.get(CAP_PROP_FRAME_WIDTH);
+	this->frameHeight = (int) cap.get(CAP_PROP_FRAME_HEIGHT);
+	this->frameWidth = (int) cap.get(CAP_PROP_FRAME_WIDTH);
 	// See getFrameFromCamera for more information for why this field exists
 	this->lastFrameFromCamera = Mat::zeros(this->frameHeight, this->frameWidth, CV_8UC3);
 }

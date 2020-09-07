@@ -10,6 +10,8 @@
 
 using namespace std;
 
+vector<string> getWordList();
+
 int main()
 {
     std::cout << "AR keyboard\n Created by: Jake Gillenwater\n\n";
@@ -18,7 +20,7 @@ int main()
 
     vector<string> wordList = getWordList();
 
-    lpt.run();
+    lpt.run(wordList);
     
     return 0;
 }

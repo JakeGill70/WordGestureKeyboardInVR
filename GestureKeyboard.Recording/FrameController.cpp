@@ -46,3 +46,7 @@ void FrameController::addCircleToFrame(cv::Mat frame, cv::Point position, cv::Sc
 	int thickness = 3;
 	cv::circle(frame, position, radius, color, thickness);
 }
+
+void FrameController::addWordToType(cv::Mat frame, string word) {
+	cv::putText(frame, word, Point(30, 30), FONT_HERSHEY_SIMPLEX, 1, Scalar(255, 0, 255));
+}

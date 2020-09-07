@@ -19,6 +19,7 @@ public:
 	int getFrameWidth();
 	static void displayFrame(cv::Mat frame, string windowName);
 	static void addCircleToFrame(cv::Mat frame, cv::Point position, cv::Scalar color);
+	static void addWordToType(cv::Mat frame, string word);
 
 private:
 	cv::VideoCapture cap;

@@ -5,7 +5,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <limits.h>
 
-
 using namespace std;
 using namespace cv;
 

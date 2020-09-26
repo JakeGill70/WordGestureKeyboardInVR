@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BitMap.cpp" />
     <ClCompile Include="ColorRange.cpp" />
     <ClCompile Include="ColorTracker.cpp" />
     <ClCompile Include="FrameController.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="VirtualKeyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bitmap.h" />
     <ClInclude Include="ColorRange.h" />
     <ClInclude Include="ColorTracker.h" />
     <ClInclude Include="FrameController.h" />

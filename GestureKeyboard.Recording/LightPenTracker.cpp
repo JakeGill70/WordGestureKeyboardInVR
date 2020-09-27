@@ -11,6 +11,8 @@
 #include <cmath>
 #include "VirtualKeyboard.h"
 
+#include "Bitmap.h"
+
 #define ESCAPE_KEY_CODE 27
 #define SPACEBAR_KEY_CODE 32
 
@@ -47,6 +49,8 @@ void LightPenTracker::run(vector<string> wordList) {
     bool wordIndexIsUpdated = false;
     bool isInputtingGesture = false;
 
+    vector<cv::Point> gesture;
+
     while (1) {
         // Capture the frame data
         frameBuffer = frameController.getFrameFromCamera();
@@ -65,9 +69,14 @@ void LightPenTracker::run(vector<string> wordList) {
         if (!isInputtingGesture && !wordIndexIsUpdated) {
             wordIndex++;
             wordIndexIsUpdated = true;
+            saveGestureToBitmap(gesture, wordList[wordIndex-1].append(".gesture.bmp").c_str(), frameController.getFrameWidth(), frameController.getFrameHeight());
+            gesture.clear();
+
+            
         }
         if (isInputtingGesture) {
             wordIndexIsUpdated = false;
+            gesture.push_back(colorTracker.getBiasedPosition());
         }
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
@@ -93,4 +102,19 @@ void LightPenTracker::run(vector<string> wordList) {
             break;
         }
     }
+}
+
+void LightPenTracker::saveGestureToBitmap(std::vector<cv::Point> gesture, const char* filename, int maxWidth, int maxHeight)
+{
+    BitMap bitMap;
+    char* buffer = bitMap.getBmpBuffer();
+    int bufferIndex = 0;
+    for (int gestureIndex = 0; gestureIndex < gesture.size(); gestureIndex++)
+    {
+        buffer[bufferIndex] = uint8_t(((float)gesture[gestureIndex].x / (float)maxWidth) * 255);
+        buffer[bufferIndex + 1] = uint8_t(((float)gesture[gestureIndex].y / (float)maxHeight) * 255);
+        bufferIndex += 3;
+    }
+    
+    bitMap.writeToFile(filename);
 }

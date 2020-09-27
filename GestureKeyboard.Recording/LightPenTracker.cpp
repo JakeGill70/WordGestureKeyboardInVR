@@ -44,6 +44,9 @@ void LightPenTracker::run(vector<string> wordList) {
     Point keySize(55, 65);
     VirtualKeyboard virtualKeyboard(startPosition, keySize, numberOfLetters, letters, rowOffsets);
 
+    bool wordIndexIsUpdated = false;
+    bool isInputtingGesture = false;
+
     while (1) {
         // Capture the frame data
         frameBuffer = frameController.getFrameFromCamera();
@@ -56,6 +59,16 @@ void LightPenTracker::run(vector<string> wordList) {
 
         // Draw the word from the wordlist
         FrameController::addWordToType(frameBuffer, wordList[wordIndex]);
+
+        // Compute the next word in the word list
+        isInputtingGesture = (colorTracker.getAveragePosition().x != 0 || colorTracker.getAveragePosition().y != 0);
+        if (!isInputtingGesture && !wordIndexIsUpdated) {
+            wordIndex++;
+            wordIndexIsUpdated = true;
+        }
+        if (isInputtingGesture) {
+            wordIndexIsUpdated = false;
+        }
 
         // Draw a circle highlighting the average tip of the pen over the last 3 frames
         FrameController::addCircleToFrame(frameBuffer, colorTracker.getAveragePosition(), YELLOW);
@@ -76,12 +89,8 @@ void LightPenTracker::run(vector<string> wordList) {
 
         // Exit if 'ESC' is pressed
         int keyPressed = waitKey(1);
-
         if (keyPressed == ESCAPE_KEY_CODE) {
             break;
-        }
-        else if (keyPressed == SPACEBAR_KEY_CODE) {
-            wordIndex++;
         }
     }
 }

@@ -7,6 +7,7 @@
 #include <string>
 #include "LightPenTracker.h"
 #include <vector>
+#include "Bitmap.h"
 
 using namespace std;
 
@@ -15,6 +16,14 @@ vector<string> getWordList();
 int main()
 {
     std::cout << "AR keyboard\n Created by: Jake Gillenwater\n\n";
+
+    BitMap bmp;
+    for (int x = 0; x < 35; x++)
+    {
+        bmp.setPixel(x, 0, 255, 0, 0);
+    }
+    bmp.writeToFile("test.bmp");
+    return 0;
 
     LightPenTracker lpt;
 

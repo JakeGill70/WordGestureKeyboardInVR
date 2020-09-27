@@ -2,38 +2,29 @@
 
 using namespace std;
 
-BitMap::BitMap(int width, int height)
+BitMap::BitMap()
 {
 	this->width = width;
 	this->height = height;
-	this->bufferSize = BITMAP_HEADER_TOTAL_SIZE + (width * height * BITMAP_PIXEL_SIZE);
-	this->bmpHeader.sizeOfBitmapFile = this->bufferSize;
-	this->bmpInfoHeader.width = (uint32_t)width;
-	this->bmpInfoHeader.height = (uint32_t)height;
-	this->bmpBuffer = new char[this->bufferSize]{ 0x00 };
+	this->imgBuffer = new char[bmpInfoHeader.rawBitmapDataSize]{ 0x00 };
 }
 
 char* BitMap::getBmpBuffer()
 {
-	return this->bmpBuffer;
-}
-
-void BitMap::setPixel(int x, int y, Pixel& pixel)
-{
-	setPixel(x, y, pixel.blue, pixel.green, pixel.red);
+	return this->imgBuffer;
 }
 
 void BitMap::setPixel(int x, int y, uint8_t b, uint8_t g, uint8_t r)
 {
-	int bufferPosition = ((x + (y * this->width)) * BITMAP_PIXEL_SIZE) + BITMAP_HEADER_TOTAL_SIZE;
-	this->bmpBuffer[bufferPosition] = b;
-	this->bmpBuffer[bufferPosition+1] = g;
-	this->bmpBuffer[bufferPosition+2] = r;
+	int bufferPosition = ((x + (y * this->width)) * BITMAP_PIXEL_SIZE);
+	this->imgBuffer[bufferPosition] = b;
+	this->imgBuffer[bufferPosition+1] = g;
+	this->imgBuffer[bufferPosition+2] = r;
 }
 
 int BitMap::getBufferSize()
 {
-	return this->bufferSize;
+	return this->bmpInfoHeader.rawBitmapDataSize;
 }
 
 int BitMap::getWidth()
@@ -46,11 +37,14 @@ int BitMap::getHeight()
 	return this->height;
 }
 
-Pixel BitMap::getPixel(int x, int y)
+void BitMap::writeToFile(const char* fileName)
 {
-	int bufferPosition = ((x + (y * this->width)) * BITMAP_PIXEL_SIZE) + BITMAP_HEADER_TOTAL_SIZE;
-	uint32_t  b = this->bmpBuffer[bufferPosition];
-	uint32_t  g = this->bmpBuffer[bufferPosition + 1];
-	uint32_t  r = this->bmpBuffer[bufferPosition + 2];
-	return Pixel(b, g, r);
+	std::ofstream fout(fileName, ios::binary);
+
+	fout.write((char*)&bmpHeader, 14);
+	fout.write((char*)&bmpInfoHeader, 40);
+
+	fout.write(imgBuffer, bmpInfoHeader.rawBitmapDataSize);
+
+	fout.close();
 }

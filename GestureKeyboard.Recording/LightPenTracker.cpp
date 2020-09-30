@@ -111,8 +111,9 @@ void LightPenTracker::saveGestureToBitmap(std::vector<cv::Point> gesture, const 
     int bufferIndex = 0;
     for (int gestureIndex = 0; gestureIndex < gesture.size(); gestureIndex++)
     {
-        buffer[bufferIndex] = uint8_t(((float)gesture[gestureIndex].x / (float)maxWidth) * 255);
-        buffer[bufferIndex + 1] = uint8_t(((float)gesture[gestureIndex].y / (float)maxHeight) * 255);
+        short x = short(((float)gesture[gestureIndex].x / (float)maxWidth) * 4095);
+        short y = short(((float)gesture[gestureIndex].y / (float)maxHeight) * 4095);;
+        bitMap.setPixel(bufferIndex, x, y);
         bufferIndex += 3;
     }
     

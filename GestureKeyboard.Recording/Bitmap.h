@@ -57,6 +57,7 @@ public:
     BitMap();
     char* getBmpBuffer();
     void setPixel(int x, int y, uint8_t b, uint8_t g, uint8_t r);
+    void setPixel(int bufferPosition, uint16_t top, uint16_t bottom);
     int getBufferSize();
     int getWidth();
     int getHeight();

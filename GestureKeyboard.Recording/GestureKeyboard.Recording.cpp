@@ -17,11 +17,11 @@ int main()
 {
     std::cout << "AR keyboard\n Created by: Jake Gillenwater\n\n";
 
-    LightPenTracker lpt;
+    LightPenTracker* lpt = new LightPenTracker();
 
     vector<string> wordList = getWordList();
 
-    lpt.run(wordList);
+    lpt->run(wordList);
     
     return 0;
 }

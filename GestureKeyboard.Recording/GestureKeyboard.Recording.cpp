@@ -8,6 +8,7 @@
 #include "LightPenTracker.h"
 #include <vector>
 #include "Bitmap.h"
+#include "Windows.h"
 
 using namespace std;
 
@@ -21,7 +22,9 @@ int main()
 
     vector<string> wordList = getWordList();
 
-    lpt->run(wordList);
+    
+
+    lpt->run(wordList, true);
     
     return 0;
 }

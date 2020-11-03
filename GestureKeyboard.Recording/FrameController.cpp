@@ -41,6 +41,29 @@ void FrameController::displayFrame(cv::Mat frame, string windowName) {
 	cv::imshow(windowName, frame);
 }
 
+void FrameController::displayFrameWithSliders(cv::Mat frame, string windowName, vector<int> &sliderValues) {
+	cv::imshow(windowName, frame);
+	string settingsName = windowName + " Settings";
+	cv::namedWindow(settingsName);
+
+	// Create sliders
+	cv::createTrackbar("UpperH", settingsName, &sliderValues[0], 255);
+	cv::createTrackbar("UpperS", settingsName, &sliderValues[1], 255);
+	cv::createTrackbar("UpperV", settingsName, &sliderValues[2], 255);
+	cv::createTrackbar("LowerH", settingsName, &sliderValues[3], 255);
+	cv::createTrackbar("LowerS", settingsName, &sliderValues[4], 255);
+	cv::createTrackbar("LowerV", settingsName, &sliderValues[5], 255);
+
+	// Update slider values
+	sliderValues[0] = cv::getTrackbarPos("UpperH", settingsName);
+	sliderValues[1] = cv::getTrackbarPos("UpperS", settingsName);
+	sliderValues[2] = cv::getTrackbarPos("UpperV", settingsName);
+	sliderValues[3] = cv::getTrackbarPos("LowerH", settingsName);
+	sliderValues[4] = cv::getTrackbarPos("LowerS", settingsName);
+	sliderValues[5] = cv::getTrackbarPos("LowerV", settingsName);
+	
+}
+
 void FrameController::addCircleToFrame(cv::Mat frame, cv::Point position, cv::Scalar color) {
 	int radius = 5;
 	int thickness = 3;

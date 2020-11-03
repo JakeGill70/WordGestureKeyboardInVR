@@ -18,6 +18,9 @@ public:
 	cv::Scalar getMin();
 	cv::Scalar getMax();
 
+	vector<int> toIntArray();
+	void fromIntArray(vector<int> arr);
+
 private:
 	cv::Scalar minHSV;
 	cv::Scalar maxHSV;

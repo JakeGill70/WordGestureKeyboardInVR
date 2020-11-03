@@ -26,6 +26,9 @@ void LightPenTracker::run(vector<string> wordList) {
     // Image buffer for manipulating the frame data
     Mat frameBuffer;
 
+    int redUH =190, redUS=255, redUV=255;
+    int redLH=150, redLS=125, redLV=50;
+
     // Red color range comes from trial and error
     ColorRange redColorRange(Scalar(150, 125, 50), Scalar(190, 255, 255));
     // White color range comes from trial and error
@@ -93,8 +96,21 @@ void LightPenTracker::run(vector<string> wordList) {
         FrameController::displayFrame(frameBuffer, "Video Camera (Mirrored)");
 
         // These two are exclusively for debugging purposes
-        // FrameController::displayFrame(colorTracker.getRedMask(), "Thresh Mask (Red)");
-        // FrameController::displayFrame(colorTracker.getWhiteMask(), "Thresh Mask (White)");
+        string threshMaskName = "Thresh Mask (Red)";
+        string threshMaskSettingsName = threshMaskName + " Settings";
+
+        FrameController::displayFrame(colorTracker.getRedMask(), threshMaskName);
+        cv::namedWindow(threshMaskSettingsName);
+        cv::createTrackbar("UpperH", threshMaskSettingsName, &redUH, 255);
+        cv::createTrackbar("UpperS", threshMaskSettingsName, &redUS, 255);
+        cv::createTrackbar("UpperV", threshMaskSettingsName, &redUV, 255);
+
+        cv::createTrackbar("LowerH", threshMaskSettingsName, &redLH, 255);
+        cv::createTrackbar("LowerS", threshMaskSettingsName, &redLS, 255);
+        cv::createTrackbar("LowerV", threshMaskSettingsName, &redLV, 255);
+
+        ColorRange red(Scalar(redLH, redLS, redLV), Scalar(redUH, redUS, redUV));
+        colorTracker.setRedColorRange(red);
 
         // Exit if 'ESC' is pressed
         int keyPressed = waitKey(1);

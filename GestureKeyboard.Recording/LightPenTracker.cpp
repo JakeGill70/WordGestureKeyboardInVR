@@ -218,6 +218,8 @@ void LightPenTracker::run(vector<string> wordList, bool settingsMode) {
                 // Save settings to file
                 setColorRangeSettings(settings);
             }
+            //Close Windows
+            cv::destroyAllWindows();
             break;
         }
     }

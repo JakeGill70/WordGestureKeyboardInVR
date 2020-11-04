@@ -8,7 +8,6 @@
 #include "LightPenTracker.h"
 #include <vector>
 #include "Bitmap.h"
-#include "Windows.h"
 
 using namespace std;
 
@@ -22,7 +21,10 @@ int main()
 
     vector<string> wordList = getWordList();
 
-    
+    // I know, I know...
+    int pVal = system("python simpleTypingTest.py");
+
+    std::cout << "Python return: " << pVal;
 
     lpt->run(wordList, true);
     

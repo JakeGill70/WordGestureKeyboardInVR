@@ -179,6 +179,9 @@
       <DeploymentContent>true</DeploymentContent>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="simpleTypingTest.py" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

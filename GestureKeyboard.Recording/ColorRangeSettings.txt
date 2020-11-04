@@ -22,3 +22,15 @@ whiteLV:255
 whiteUH:25
 whiteUS:255
 whiteUV:255
+redLH:150
+redLS:125
+redLV:50
+redUH:190
+redUS:255
+redUV:255
+whiteLH:0
+whiteLS:0
+whiteLV:255
+whiteUH:25
+whiteUS:255
+whiteUV:255

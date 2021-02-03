@@ -12,6 +12,9 @@
 
 using namespace std;
 
+void runTraditionalTypingTest(int si, int ei);
+void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei);
+void runGestureSetup(LightPenTracker* lpt, vector<string> wordList);
 vector<string> getWordList();
 void ClearScreen();
 
@@ -23,9 +26,14 @@ int main()
 
     vector<string> wordList = getWordList();
 
-    std::string menu = "[1] Setup\n";
-    menu += "[2] Traditional Typing Test(Part 1)\n[3] Traditional Typing Test(Part 2)\n";
-    menu += "[4] WGK Typing Test (Part 1)\n[5] WGK Typing Test (Part 2)\n[6] WGK Typing Test (Part 3)\n[7] WGK Typing Test (Part 4)\n";
+    std::string menu = "";
+    menu += "[1] Setup\n";
+    menu += "[2] Traditional Typing Test(Part 1)\n";
+    menu += "[3] Traditional Typing Test(Part 2)\n";
+    menu += "[4] WGK Typing Test (Part 1)\n";
+    menu += "[5] WGK Typing Test (Part 2)\n";
+    menu += "[6] WGK Typing Test(Part 3)\n";
+    menu += "[7] WGK Typing Test(Part 4)\n";
     menu += "[8] Exit\n";
 
     std::string input;
@@ -48,21 +56,25 @@ int main()
 
         switch (inputVal) {
             case 1:
-                lpt->run(wordList, true);
+                runGestureSetup(lpt, wordList);
                 break;
             case 2:
+                runTraditionalTypingTest(0, 249);
+                break;
             case 3:
-                // I know, I know... I'm not happy about this either,
-                // but there will be time to refactor it into something
-                // more effecient and more secure after I get the core
-                // functionality working.
-                system("python simpleTypingTest.py");
+                runTraditionalTypingTest(250, 500);
                 break;
             case 4:
+                runGestureTypingTest(lpt, wordList, 0, 249);
+                break;
             case 5:
+                runGestureTypingTest(lpt, wordList, 250, 500);
+                break;
             case 6:
+                runGestureTypingTest(lpt, wordList, 0, 249);
+                break;
             case 7:
-                lpt->run(wordList, false);
+                runGestureTypingTest(lpt, wordList, 250, 500);
                 break;
             case 8:
                 isRunning = false;
@@ -73,10 +85,23 @@ int main()
         }
     }
     
-
-    
-    
     return 0;
+}
+
+void runTraditionalTypingTest(int si, int ei) {
+    // I know, I know... I'm not happy about this either,
+    // but there will be time to refactor it into something
+    // more effecient and more secure after I get the core
+    // functionality working.
+    system("python simpleTypingTest.py");
+}
+
+void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
+    lpt->run(wordList, false);
+}
+
+void runGestureSetup(LightPenTracker* lpt, vector<string> wordList) {
+    lpt->run(wordList, true);
 }
 
 vector<string> getWordList() {

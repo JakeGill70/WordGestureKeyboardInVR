@@ -97,11 +97,11 @@ void runTraditionalTypingTest(int si, int ei) {
 }
 
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
-    lpt->run(wordList, false);
+    lpt->run(wordList);
 }
 
-void runGestureSetup(LightPenTracker* lpt, vector<string> wordList) {
-    lpt->run(wordList, true);
+void runGestureSetup(LightPenTracker* lpt) {
+    lpt->setup();
 }
 
 vector<string> getWordList() {

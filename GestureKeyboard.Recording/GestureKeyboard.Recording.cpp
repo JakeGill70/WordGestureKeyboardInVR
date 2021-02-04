@@ -14,7 +14,7 @@ using namespace std;
 
 void runTraditionalTypingTest(int si, int ei);
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei);
-void runGestureSetup(LightPenTracker* lpt, vector<string> wordList);
+void runGestureSetup(LightPenTracker* lpt);
 vector<string> getWordList();
 void ClearScreen();
 
@@ -56,7 +56,7 @@ int main()
 
         switch (inputVal) {
             case 1:
-                runGestureSetup(lpt, wordList);
+                runGestureSetup(lpt);
                 break;
             case 2:
                 runTraditionalTypingTest(0, 249);

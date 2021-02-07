@@ -5,6 +5,9 @@ import string
 import time
 import sys
 
+# Build command:
+# pyinstaller --onefile .\simpleTypingTest.py --workpath .\stt\build --distpath .\stt\dist
+
 # Get command line args
 wordListFileName = sys.argv[1]
 resultsFileName = sys.argv[2]

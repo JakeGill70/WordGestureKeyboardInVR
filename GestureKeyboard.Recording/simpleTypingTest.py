@@ -1,4 +1,3 @@
-import keyboard
 import os
 import random
 import string
@@ -42,12 +41,13 @@ while(len(words) > 0):
     elapsedTime_s = endTime - startTime
 
     # Exit character for testing purposes
-    if(word=="?"):
+    if(word == "?"):
         break
 
     # Output all the necessary information to the output file
     # Notice that correct input/spelling can be checked after the fact
-    outFile.write(wordToType + ":" + word + ":" + str(elapsedTime_s) + ":" + str(word == wordToType))
+    outFile.write(wordToType + ":" + word + ":" +
+                  str(elapsedTime_s) + ":" + str(word == wordToType))
 
 # Finish writing to the file and close it
 outFile.close()

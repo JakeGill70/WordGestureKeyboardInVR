@@ -47,7 +47,7 @@ while(len(words) > 0):
     # Output all the necessary information to the output file
     # Notice that correct input/spelling can be checked after the fact
     outFile.write(wordToType + ":" + word + ":" +
-                  str(elapsedTime_s) + ":" + str(word == wordToType))
+                  str(elapsedTime_s) + ":" + str(word == wordToType) + "\n")
 
 # Finish writing to the file and close it
 outFile.close()

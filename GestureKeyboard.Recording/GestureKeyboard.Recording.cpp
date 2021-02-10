@@ -9,6 +9,8 @@
 #include <vector>
 #include "Bitmap.h"
 #include <conio.h>
+#include <windows.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -89,11 +91,54 @@ int main()
 }
 
 void runTraditionalTypingTest(int si, int ei) {
-    // I know, I know... I'm not happy about this either,
-    // but there will be time to refactor it into something
-    // more effecient and more secure after I get the core
-    // functionality working.
-    system("python simpleTypingTest.py");
+    // ! To work, note that you need to define "WINDOWS_IGNORE_PACKING_MISMATCH" under
+    // ! Project Settings > C++ > Preprocessor > Preprocessor definitions
+
+    STARTUPINFOA startInfo;
+    PROCESS_INFORMATION procInfo;
+
+    ZeroMemory(&startInfo, sizeof(startInfo));
+    startInfo.cb = sizeof(startInfo);
+    ZeroMemory(&procInfo, sizeof(procInfo));
+
+    /*
+    Cmd Line Args from the python script:
+    wordListFileName = sys.argv[1]
+    resultsFileName = sys.argv[2]
+    wordListStartIndex = int(sys.argv[3])
+    wordListEndIndex = int(sys.argv[4])
+    */
+    std::string wordListFileName = "wordList.txt ";
+    std::string resultsFileName = "./SimpleTypingTestResults.txt ";
+    std::string startIndex = to_string(si);
+    std::string endIndex = to_string(ei);
+    std::string strCmd = "python simpleTypingTest.py " + wordListFileName + resultsFileName + startIndex + " " + endIndex;
+    LPSTR lpStrCmd = const_cast<char*>(strCmd.c_str());
+
+    // Start the child process. 
+    if (!CreateProcessA(
+        NULL,           // No module name (use command line)
+        lpStrCmd,       // Command line
+        NULL,           // Process handle not inheritable
+        NULL,           // Thread handle not inheritable
+        FALSE,          // Set handle inheritance to FALSE
+        0,              // No creation flags
+        NULL,           // Use parent's environment block
+        NULL,           // Use parent's starting directory 
+        &startInfo,     // Pointer to STARTUPINFO structure
+        &procInfo)      // Pointer to PROCESS_INFORMATION structure
+        )
+    {
+        printf("CreateProcess failed (%d).\n", GetLastError());
+        return;
+    }
+
+    // Wait until child process exits.
+    WaitForSingleObject(procInfo.hProcess, INFINITE);
+
+    // Close process and thread handles. 
+    CloseHandle(procInfo.hProcess);
+    CloseHandle(procInfo.hThread);
 }
 
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {

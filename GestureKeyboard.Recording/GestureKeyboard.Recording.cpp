@@ -18,7 +18,7 @@ void runTraditionalTypingTest(int si, int ei);
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei);
 void runGestureSetup(LightPenTracker* lpt);
 vector<string> getWordList();
-void ClearScreen();
+void clearScreen();
 
 int main()
 {
@@ -46,7 +46,7 @@ int main()
 
         inputVal = 0;
 
-        ClearScreen();
+        clearScreen();
         std::cout << menu;
         std::cin >> input;
         try {
@@ -164,7 +164,7 @@ vector<string> getWordList() {
     return wordList;
 }
 
-void ClearScreen()
+void clearScreen()
 {
     // I hate C++ sometimes...
     // Source: https://www.cplusplus.com/articles/4z18T05o/

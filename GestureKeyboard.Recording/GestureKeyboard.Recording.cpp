@@ -25,6 +25,7 @@ void createResultsFolder();
 string getMyDocumentsPath();
 string getResultsPath();
 string wstrtostr(const wstring& wstr);
+vector<string> getSubVector(vector<string> const& v, int m, int n);
 
 int main()
 {
@@ -149,6 +150,14 @@ void runTraditionalTypingTest(int si, int ei) {
 
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
     lpt->run(wordList);
+}
+
+vector<string> getSubVector(vector<string> const& v, int m, int n) {
+    // https://www.tutorialspoint.com/getting-a-subvector-from-a-vector-in-cplusplus
+    auto first = v.begin() + m;
+    auto last = v.begin() + n + 1;
+    vector<string> vek(first, last);
+    return vek;
 }
 
 void runGestureSetup(LightPenTracker* lpt) {

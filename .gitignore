@@ -343,3 +343,4 @@ healthchecksdb
 *.gesture.bmp
 GestureKeyboard.Recording/TypingTestResults.txt
 GestureKeyboard.Recording/ColorRangeSettings.txt
+GestureKeyboard.Recording/stt/

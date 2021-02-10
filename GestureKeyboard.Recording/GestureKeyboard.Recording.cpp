@@ -11,6 +11,8 @@
 #include <conio.h>
 #include <windows.h>
 #include <stdio.h>
+#include <direct.h>
+#include <shlobj_core.h>
 
 using namespace std;
 
@@ -19,6 +21,10 @@ void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si,
 void runGestureSetup(LightPenTracker* lpt);
 vector<string> getWordList();
 void clearScreen();
+void createResultsFolder();
+string getMyDocumentsPath();
+string getResultsPath();
+string wstrtostr(const wstring& wstr);
 
 int main()
 {
@@ -171,4 +177,37 @@ void clearScreen()
     for (int n = 0; n < 10; n++) {
         printf("\n\n\n\n\n\n\n\n\n\n");
     }
+}
+
+void createResultsFolder() {
+    // Get the path to the user's Documents folder
+    string path = getMyDocumentsPath();
+    // Attempt to create Documents\WordGestureKeyboard
+    path += "\\WordGestureKeyboard";
+    _mkdir(path.c_str());
+    // Attempt to create Documents\WordGestureKeyboard\Results
+    path += "\\Results";
+    _mkdir(path.c_str());
+}
+
+std::string getMyDocumentsPath() {
+    PWSTR pwStrPath;
+    HRESULT hres = SHGetKnownFolderPath(FOLDERID_Documents, 0, NULL, &pwStrPath);
+    string path = wstrtostr(pwStrPath);
+    return path;
+}
+
+std::string getResultsPath() {
+    return getMyDocumentsPath() + "\\WordGestureKeyboard\\Results\\";
+}
+
+std::string wstrtostr(const std::wstring& wstr)
+{
+    std::string strTo;
+    char* szTo = new char[wstr.length() + 1];
+    szTo[wstr.size()] = '\0';
+    WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, szTo, (int)wstr.length(), NULL, NULL);
+    strTo = szTo;
+    delete[] szTo;
+    return strTo;
 }

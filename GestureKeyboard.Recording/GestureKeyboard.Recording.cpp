@@ -149,7 +149,8 @@ void runTraditionalTypingTest(int si, int ei) {
 }
 
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
-    lpt->run(wordList);
+    vector<string> wList = getSubVector(wordList, si, ei);
+    lpt->run(wList, getResultsPath());
 }
 
 vector<string> getSubVector(vector<string> const& v, int m, int n) {

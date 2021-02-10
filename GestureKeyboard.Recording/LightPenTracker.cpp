@@ -205,7 +205,7 @@ void LightPenTracker::setup() {
 }
 
 
-void LightPenTracker::run(vector<string> wordList) {
+void LightPenTracker::run(vector<string> wordList, string resultsPath) {
     // Accessor to Video Camera
     FrameController frameController;
 
@@ -272,7 +272,7 @@ void LightPenTracker::run(vector<string> wordList) {
         if (!isInputtingGesture && !wordIndexIsUpdated) {
             wordIndex++;
             wordIndexIsUpdated = true;
-            saveGestureToBitmap(gesture, wordList[wordIndex - 1].append(".gesture.bmp").c_str(), frameController.getFrameWidth(), frameController.getFrameHeight());
+            saveGestureToBitmap(gesture, (resultsPath + wordList[wordIndex - 1].append(".gesture.bmp")).c_str(), frameController.getFrameWidth(), frameController.getFrameHeight());
             gesture.clear();
         }
         if (isInputtingGesture) {

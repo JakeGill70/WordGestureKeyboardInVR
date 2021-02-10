@@ -8,7 +8,7 @@
 class LightPenTracker
 {
 public:
-	void run(std::vector<std::string> wordList);
+	void run(std::vector<std::string> wordList, std::string resultsPath);
 	void setup();
 	void saveGestureToBitmap(std::vector<cv::Point> gesture, const char* filename, int maxWidth, int maxHeight);
 	int wordIndex;

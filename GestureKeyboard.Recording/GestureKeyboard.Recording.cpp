@@ -65,6 +65,7 @@ int main()
 
         switch (inputVal) {
             case 1:
+                createResultsFolder();
                 runGestureSetup(lpt);
                 break;
             case 2:
@@ -93,7 +94,6 @@ int main()
                 break;
         }
     }
-    
     return 0;
 }
 
@@ -116,7 +116,7 @@ void runTraditionalTypingTest(int si, int ei) {
     wordListEndIndex = int(sys.argv[4])
     */
     std::string wordListFileName = "wordList.txt ";
-    std::string resultsFileName = "./SimpleTypingTestResults.txt ";
+    std::string resultsFileName = getResultsPath() + "SimpleTypingTestResults.txt ";
     std::string startIndex = to_string(si);
     std::string endIndex = to_string(ei);
     std::string strCmd = "python simpleTypingTest.py " + wordListFileName + resultsFileName + startIndex + " " + endIndex;

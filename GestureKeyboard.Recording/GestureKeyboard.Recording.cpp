@@ -119,7 +119,7 @@ void runTraditionalTypingTest(int si, int ei) {
     std::string resultsFileName = getResultsPath() + "SimpleTypingTestResults.txt ";
     std::string startIndex = to_string(si);
     std::string endIndex = to_string(ei);
-    std::string strCmd = "python simpleTypingTest.py " + wordListFileName + resultsFileName + startIndex + " " + endIndex;
+    std::string strCmd = "./stt/dist/simpleTypingTest.exe " + wordListFileName + resultsFileName + startIndex + " " + endIndex;
     LPSTR lpStrCmd = const_cast<char*>(strCmd.c_str());
 
     // Start the child process. 

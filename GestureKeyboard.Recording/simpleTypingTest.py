@@ -3,7 +3,8 @@ import time
 import sys
 
 # Build command:
-# pyinstaller --onefile .\simpleTypingTest.py --workpath .\stt\build --distpath .\stt\dist
+#x pyinstaller --onefile .\simpleTypingTest.py --workpath .\stt\build --distpath .\stt\dist
+# python setup.py py2exe
 
 # Get command line args
 wordListFileName = sys.argv[1]

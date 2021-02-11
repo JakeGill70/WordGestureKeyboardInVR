@@ -116,7 +116,8 @@
       <AdditionalDependencies>opencv_world420d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>pyinstaller --onefile .\simpleTypingTest.py --workpath .\stt\build --distpath .\stt\dist</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -184,6 +185,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
+    <None Include="setup.py" />
     <None Include="simpleTypingTest.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

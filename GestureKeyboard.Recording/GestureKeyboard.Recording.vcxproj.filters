@@ -78,5 +78,8 @@
     <None Include="simpleTypingTest.py">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="setup.py">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

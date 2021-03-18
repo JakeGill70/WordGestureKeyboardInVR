@@ -19,6 +19,7 @@ using namespace std;
 void runTraditionalTypingTest(int si, int ei);
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei);
 void runGestureSetup(LightPenTracker* lpt);
+void runProcessSynchronous(string appName, string cmdLineArgs);
 vector<string> getWordList();
 void clearScreen();
 void createResultsFolder();
@@ -97,7 +98,7 @@ int main()
     return 0;
 }
 
-void runTraditionalTypingTest(int si, int ei) {
+void runProcessSynchronous(string appName, string cmdLineArgs) {
     // ! To work, note that you need to define "WINDOWS_IGNORE_PACKING_MISMATCH" under
     // ! Project Settings > C++ > Preprocessor > Preprocessor definitions
 
@@ -108,18 +109,7 @@ void runTraditionalTypingTest(int si, int ei) {
     startInfo.cb = sizeof(startInfo);
     ZeroMemory(&procInfo, sizeof(procInfo));
 
-    /*
-    Cmd Line Args from the python script:
-    wordListFileName = sys.argv[1]
-    resultsFileName = sys.argv[2]
-    wordListStartIndex = int(sys.argv[3])
-    wordListEndIndex = int(sys.argv[4])
-    */
-    std::string wordListFileName = "wordList.txt ";
-    std::string resultsFileName = getResultsPath() + "SimpleTypingTestResults.txt ";
-    std::string startIndex = to_string(si);
-    std::string endIndex = to_string(ei);
-    std::string strCmd = "./stt/dist/simpleTypingTest.exe " + wordListFileName + resultsFileName + startIndex + " " + endIndex;
+    std::string strCmd = appName + " " + cmdLineArgs;
     LPSTR lpStrCmd = const_cast<char*>(strCmd.c_str());
 
     // Start the child process. 
@@ -149,6 +139,23 @@ void runTraditionalTypingTest(int si, int ei) {
 }
 
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
+void runTraditionalTypingTest(int si, int ei) {
+    /*
+    Cmd Line Args from the python script:
+    wordListFileName = sys.argv[1]
+    resultsFileName = sys.argv[2]
+    wordListStartIndex = int(sys.argv[3])
+    wordListEndIndex = int(sys.argv[4])
+    */
+    std::string appName = "./stt/simpleTypingTest.exe";
+    std::string wordListFileName = "wordList.txt ";
+    std::string resultsFileName = getResultsPath() + "SimpleTypingTestResults.txt ";
+    std::string startIndex = to_string(si);
+    std::string endIndex = to_string(ei);
+    std::string args = wordListFileName + resultsFileName + startIndex + " " + endIndex;
+    
+    runProcessSynchronous(appName, args);
+}
     vector<string> wList = getSubVector(wordList, si, ei);
     lpt->run(wList, getResultsPath());
 }

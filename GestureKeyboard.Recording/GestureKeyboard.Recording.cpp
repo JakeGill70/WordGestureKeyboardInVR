@@ -19,6 +19,7 @@ using namespace std;
 void runTraditionalTypingTest(int si, int ei);
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei);
 void runGestureSetup(LightPenTracker* lpt);
+void runResultsUpload();
 void runProcessSynchronous(string appName, string cmdLineArgs);
 vector<string> getWordList();
 void clearScreen();
@@ -44,7 +45,8 @@ int main()
     menu += "[5] WGK Typing Test (Part 2)\n";
     menu += "[6] WGK Typing Test(Part 3)\n";
     menu += "[7] WGK Typing Test(Part 4)\n";
-    menu += "[8] Exit\n";
+    menu += "[8] Upload data to jakegillenwater.dev\n";
+    menu += "[9] Exit\n";
 
     std::string input;
     int inputVal;
@@ -88,6 +90,9 @@ int main()
                 runGestureTypingTest(lpt, wordList, 250, 500);
                 break;
             case 8:
+                runResultsUpload();
+                break;
+            case 9:
                 isRunning = false;
                 break;
             default:
@@ -139,6 +144,15 @@ void runProcessSynchronous(string appName, string cmdLineArgs) {
 }
 
 void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
+void runResultsUpload() {
+    /*
+    Cmd Line Args from the python script:
+    resultsDirectory = sys.argv[1]
+    */
+
+    runProcessSynchronous("./up/uploader.exe", getResultsPath());
+}
+
 void runTraditionalTypingTest(int si, int ei) {
     /*
     Cmd Line Args from the python script:

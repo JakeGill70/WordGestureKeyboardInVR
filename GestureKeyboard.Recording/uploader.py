@@ -27,9 +27,6 @@ def uploadFolder_recursive(sftp, localPath, remotePath, totalFiles=0, filesSoFar
     # Begin copying each file in the local folder
     files = os.listdir(localPath)
 
-    # Update for status messages
-    totalFiles += len(files)
-
     for name in files:
         # Update for status messages
         filesSoFar += 1
@@ -37,7 +34,7 @@ def uploadFolder_recursive(sftp, localPath, remotePath, totalFiles=0, filesSoFar
         if(filesSoFar % 10 == 0):
             percentComplete = filesSoFar/totalFiles
             percentComplete *= 100
-            print(f"Estimated percent complete: {round(percentComplete, 2)}")
+            print(f"Estimated percent complete: {round(percentComplete, 2)}%")
 
         filePathName = localPath + "/" + name
         # If the file is a _really a file_, then upload it
@@ -50,7 +47,7 @@ def uploadFolder_recursive(sftp, localPath, remotePath, totalFiles=0, filesSoFar
             if(not sftp.exists(remoteDirectoryName)):
                 sftp.mkdir(remoteDirectoryName)
             # Start uploading the files in this subfolder
-            uploadFolder_recursive(sftp, filePathName, remoteDirectoryName)
+            uploadFolder_recursive(sftp, filePathName, remoteDirectoryName, totalFiles, filesSoFar)
 
     # Restore the pwd
     sftp.chdir(old_pwd)
@@ -90,13 +87,17 @@ with pysftp.Connection('jakegillenwater.dev', username='volunteer', password='th
         # Change the remote directory to the new results folder
         sftp.chdir(resultsFolderName)
 
-        print("Uploading files...")
+        print("Counting files to upload...")
+
+        fileCount = countFiles(resultsPath)
+
+        print(f"Uploading {fileCount} files...")
 
         # Get the full path to the results folder
         # dataPath = os.path.expanduser("~/Documents/WordGestureKeyboard/Results")
 
         # Upload the results folder
-        uploadFolder_recursive(sftp, resultsPath, sftp.pwd)
+        uploadFolder_recursive(sftp, resultsPath, sftp.pwd, fileCount)
 
 print("Upload complete!")
 input("Press 'Enter' to continue.")

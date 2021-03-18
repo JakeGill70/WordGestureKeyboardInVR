@@ -185,8 +185,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="setup.py" />
+    <None Include="setup_stt.py" />
+    <None Include="setup_up.py" />
     <None Include="simpleTypingTest.py" />
+    <None Include="uploader.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,11 @@ import datetime
 
 resultsPath = sys.argv[1]
 
+
+def countFiles(localPath):
+    return sum([len(files) for root, directories, files in os.walk(localPath, topdown=False)])
+
+
 def uploadFolder_recursive(sftp, localPath, remotePath, totalFiles=0, filesSoFar=0):
     # Uploads each file in a folder to the server.
     # If a subfolder exists, then each file within it will be added as well

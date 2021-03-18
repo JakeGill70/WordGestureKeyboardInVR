@@ -4,6 +4,7 @@ import pysftp
 import os
 import getpass
 import datetime
+import sys
 
 resultsPath = sys.argv[1]
 

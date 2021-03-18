@@ -17,7 +17,7 @@
 using namespace std;
 
 void runTraditionalTypingTest(int si, int ei);
-void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei);
+void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei, int resultsFolderNum);
 void runGestureSetup(LightPenTracker* lpt);
 void runResultsUpload();
 void runProcessSynchronous(string appName, string cmdLineArgs);
@@ -78,16 +78,16 @@ int main()
                 runTraditionalTypingTest(250, 500);
                 break;
             case 4:
-                runGestureTypingTest(lpt, wordList, 0, 249);
+                runGestureTypingTest(lpt, wordList, 0, 249, 1);
                 break;
             case 5:
-                runGestureTypingTest(lpt, wordList, 250, 500);
+                runGestureTypingTest(lpt, wordList, 250, 500, 2);
                 break;
             case 6:
-                runGestureTypingTest(lpt, wordList, 0, 249);
+                runGestureTypingTest(lpt, wordList, 0, 249, 3);
                 break;
             case 7:
-                runGestureTypingTest(lpt, wordList, 250, 500);
+                runGestureTypingTest(lpt, wordList, 250, 500, 4);
                 break;
             case 8:
                 runResultsUpload();
@@ -143,7 +143,6 @@ void runProcessSynchronous(string appName, string cmdLineArgs) {
     CloseHandle(procInfo.hThread);
 }
 
-void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei) {
 void runResultsUpload() {
     /*
     Cmd Line Args from the python script:
@@ -170,8 +169,13 @@ void runTraditionalTypingTest(int si, int ei) {
     
     runProcessSynchronous(appName, args);
 }
+
+void runGestureTypingTest(LightPenTracker* lpt, vector<string> wordList, int si, int ei, int resultsFolderNum) {
     vector<string> wList = getSubVector(wordList, si, ei);
-    lpt->run(wList, getResultsPath());
+    string path = getResultsPath();
+    path += std::to_string(resultsFolderNum);
+    path += "\\";
+    lpt->run(wList, path);
 }
 
 vector<string> getSubVector(vector<string> const& v, int m, int n) {
@@ -219,6 +223,11 @@ void createResultsFolder() {
     // Attempt to create Documents\WordGestureKeyboard\Results
     path += "\\Results";
     _mkdir(path.c_str());
+    // Attempt to create Documents\WordGestureKeyboard\Results\iter#
+    _mkdir((path + "\\1").c_str());
+    _mkdir((path + "\\2").c_str());
+    _mkdir((path + "\\3").c_str());
+    _mkdir((path + "\\4").c_str());
 }
 
 std::string getMyDocumentsPath() {

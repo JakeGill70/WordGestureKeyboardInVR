@@ -1,5 +1,8 @@
 #include "Bitmap.h"
 
+// Holy cow look at that, I added a comment!
+// What do you think about that?
+
 using namespace std;
 
 BitMap::BitMap()
